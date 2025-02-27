@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Vue 1</title>
+</head>
+<body class="h-full grid place-items-center">
+    <div id="app">
+        <section v-show="inProgressdAssignments.length">
+            <h2 class="font-bold mb-2">In progress</h2>
+            <ul>
+                <li 
+                v-for="assignment in inProgressdAssignments " 
+                :key="assignment.id"
+                >
+                    <label for="">
+                        {{ assignment.name }}
+                        <input type="checkbox" v-model="assignment.complete" name="" id="">
+                    </label>
+                
+                </li>
+            </ul>
+        </section>
+
+        <section class="mt-8" v-show="completedAssignments.length">
+            <h2 class="font-bold mb-2">Completed</h2>
+            <ul>
+                <li 
+                v-for="assignment in completedAssignments" 
+                :key="assignment.id"
+                >
+                    <label for="">
+                        {{ assignment.name }}
+                        <input type="checkbox" v-model="assignment.complete" name="" id="">
+                    </label>
+                
+                </li>
+            </ul>
+        </section>
+
+        <button v-bind:class="btnColor" v-on:click="changeColor">Change color</button>
+        
+        <!-- <pre>
+            {{ assignments }}
+        </pre> -->
+    </div>
+    
+
+    <script>
+        let app = {
+            data () {
+                return {
+                    assignments : [
+                    {name : 'first' , complete : false , id : 1},
+                    {name : 'second' , complete : false , id : 2},
+                    {name : 'third' , complete : false , id : 3},
+
+                    ],
+                    btnClasses : '',
+                    btnActive : false
+                }
+                
+            },
+            methods : {
+                changeColor() {
+                    this.btnActive = ! this.btnActive;
+                }
+            },
+            computed :{
+                inProgressdAssignments(){
+                    return this.assignments.filter(a => !a.complete)
+                },
+                completedAssignments(){
+                    return this.assignments.filter(a => a.complete)
+                },
+                btnColor(){
+                    return this.btnActive ? this.btnClasses = 'bg-green-500' : 'bg-red-500'
+                },
+
+            },
+        };
+        Vue.createApp(app).mount('#app')
+    </script>
+</body>
+</html>
